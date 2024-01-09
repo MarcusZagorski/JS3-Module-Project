@@ -1755,36 +1755,69 @@ function getAllEpisodes() {
   ];
 }
 
-function makePageForEpisodes(episodeList) {
-  // const rootElem = document.getElementById("root");
-  // rootElem.textContent = `Got ${episodeList.length} episode(s)`;
-
-  // Creating a card for each Episode
-  for (let i = 0; i <= episodeList.length; i++) {
-    // Creates cards film title
-    const filmTitleElement = document.createElement("h1");
-    filmTitleElement.textContent = episodeList[i].name;
-    filmTitleElement.classList.add("card__title");
-
-    // Creates card for film description
-    const cardDiv = document.createElement("div");
-    cardDiv.classList.add("card");
-    cardDiv.appendChild(filmTitleElement);
-
-    // Creates cards images
-    const filmImgElement = document.createElement("img");
-    filmImgElement.setAttribute("src", episodeList[i].image.medium);
-    filmImgElement.classList.add("card__img");
-    cardDiv.appendChild(filmImgElement);
-
-    // Appends card
-    const layoutSelector = document.querySelector(".layout");
-    layoutSelector.appendChild(cardDiv);
-    layoutSelector.style.gridTemplateRows = `repeat(${i}, 34rem)`;
+// Function to create cards
+function createElement(tag, className) {
+  const element = document.createElement(tag);
+  if (className) {
+    element.classList.add(className);
   }
+  return element;
 }
 
-//   grid-template-rows: repeat(2, 100vh);
+function formatSeasonAndEpisode(season, episodeNumber) {
+  return `S${String(season).padStart(2, "0")}E${String(episodeNumber).padStart(
+    2,
+    "0"
+  )}`;
+}
+
+function createEpisodeCard(episode) {
+  const cardDiv = createElement("section", "card");
+
+  const seasonAndEpisodeWithPadding = formatSeasonAndEpisode(
+    episode.season,
+    episode.number
+  );
+
+  const urlForCardsToTvMaze = createElement("a");
+  urlForCardsToTvMaze.setAttribute("href", episode.url);
+  urlForCardsToTvMaze.setAttribute("target", "_blank");
+
+  const filmTitleElement = createElement("h1", "card__title");
+  filmTitleElement.textContent = `${episode.name} - ${seasonAndEpisodeWithPadding}`;
+  cardDiv.appendChild(filmTitleElement);
+
+  const filmImgElement = createElement("img", "card__img");
+  filmImgElement.setAttribute("src", episode.image.original);
+  cardDiv.appendChild(filmImgElement);
+
+  const filmSummaryElement = createElement("p", "card__summary");
+  filmSummaryElement.innerHTML = episode.summary;
+  cardDiv.appendChild(filmSummaryElement);
+
+  urlForCardsToTvMaze.appendChild(cardDiv);
+
+  return urlForCardsToTvMaze;
+}
+
+function makePageForEpisodes(episodeList) {
+  const layoutSelector = document.querySelector(".layout");
+
+  const test = episodeList.forEach((episode) => {
+    console.log(episode.name);
+  });
+
+  // Creates a card for each episode
+  episodeList.forEach((episode) => {
+    const filmCard = createEpisodeCard(episode);
+    layoutSelector.appendChild(filmCard);
+  });
+
+  const footerTag = document.querySelector("footer");
+  footerTag.innerHTML = `Data originally sourced by
+      <a href="https://www.tvmaze.com/" id="tv-maze-link">TVMaze.com</a>`;
+  document.body.append(footerElement);
+}
 
 function setup() {
   const allEpisodes = getAllEpisodes();
@@ -1792,6 +1825,4 @@ function setup() {
   return allEpisodes;
 }
 
-setup();
-
-// window.onload = setup;
+window.onload = setup;

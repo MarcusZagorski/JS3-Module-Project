@@ -1,4 +1,5 @@
 //You can edit ALL of the code here
+
 function getAllEpisodes() {
   return [
     {
@@ -1755,7 +1756,7 @@ function getAllEpisodes() {
   ];
 }
 
-// Function to create cards
+// Function to create card
 function createElement(tag, className) {
   const element = document.createElement(tag);
   if (className) {
@@ -1824,5 +1825,16 @@ function setup() {
   makePageForEpisodes(allEpisodes);
   return allEpisodes;
 }
+
+//search filed part
+const searchFiled = document.querySelector("#episodeSearch");
+document.body.append(searchFiled);
+searchFiled.addEventListener("input", filterAllEposides);
+
+let getSearchInputValue = searchFiled.value;
+function filterAllEposides() {}
+fetch("JS3-Module-Project-Marchus/episodes.js")
+  .then((response) => response.json())
+  .then((data) => getAllEpisodes(data));
 
 window.onload = setup;

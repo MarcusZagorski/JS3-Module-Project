@@ -1,5 +1,4 @@
 //You can edit ALL of the code here
-
 function getAllEpisodes() {
   return [
     {
@@ -1756,7 +1755,7 @@ function getAllEpisodes() {
   ];
 }
 
-// Function to create card
+// Function to create cards
 function createElement(tag, className) {
   const element = document.createElement(tag);
   if (className) {
@@ -1817,7 +1816,7 @@ function makePageForEpisodes(episodeList) {
   const footerTag = document.querySelector("footer");
   footerTag.innerHTML = `Data originally sourced by
       <a href="https://www.tvmaze.com/" id="tv-maze-link">TVMaze.com</a>`;
-  document.body.append(footerElement);
+  document.body.append(footerTag);
 }
 
 function setup() {
@@ -1825,16 +1824,16 @@ function setup() {
   makePageForEpisodes(allEpisodes);
   return allEpisodes;
 }
+window.onload = setup;
 
 //search filed part
-const searchFiled = document.querySelector("#episodeSearch");
-document.body.append(searchFiled);
-searchFiled.addEventListener("input", filterAllEposides);
+// const searchFiled = document.querySelector("#episodeSearch");
+// document.body.append(searchFiled);
+// searchFiled.addEventListener("input", filterAllEposides);
 
-let getSearchInputValue = searchFiled.value;
-function filterAllEposides() {}
-fetch("JS3-Module-Project-Marchus/episodes.js")
-  .then((response) => response.json())
-  .then((data) => getAllEpisodes(data));
-
-window.onload = setup;
+// let getSearchInputValue = searchFiled.value;
+// function filterAllEposides() {
+//   fetch("JS3-Module-Project-Marchus/episodes.js")
+//     .then((response) => response.json())
+//     .then((data) => getAllEpisodes(data));
+// }

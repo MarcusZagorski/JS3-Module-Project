@@ -1837,3 +1837,12 @@ window.onload = setup;
 //     .then((response) => response.json())
 //     .then((data) => getAllEpisodes(data));
 // }
+const inputFi = createElement("input", "input-filed");
+inputFi.type = "search";
+inputFi.placeholder = "Episodes search";
+
+const selectElement = createElement("select", "episodeSelect");
+selectElement.name = "episodeSelect";
+
+document.body.appendChild(inputFi);
+document.body.appendChild(selectElement);

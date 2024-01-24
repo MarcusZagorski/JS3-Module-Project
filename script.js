@@ -1,4 +1,23 @@
-//You can edit ALL of the code here
+// //You can edit ALL of the code here
+
+//const searchField = document.getElementById("episodeSearch");
+const episodeSelector = document.querySelector("#episodeSearch");
+const layoutSelector = document.querySelector(".layout");
+//let getSearchInputValue = searchField.value;
+//document.body.appendChild(searchField);
+
+// Search filter for TV Show Library
+
+// Steps:
+// Create a search field (input type text)
+// Create an event listener (function) to work with the search field
+
+// Function steps:
+// Console.log the search field value to ensure that the search bar is logging my input
+// Filter the array of objects (allEpisodes) so that I can see the episodes that are related to my search
+// Clear the current cards
+// Call the filtered cards to create a new layout depending upon the current search
+
 function getAllEpisodes() {
   return [
     {
@@ -1755,6 +1774,17 @@ function getAllEpisodes() {
   ];
 }
 
+episodeSelector.addEventListener("input", function () {
+  const searchTerm = episodeSelector.value.toLowerCase();
+  const filterSearch = getAllEpisodes().filter((episode) =>
+    episode.name.toLowerCase().includes(searchTerm)
+  );
+  console.log(filterSearch);
+  layoutSelector.innerHTML = "";
+
+  makePageForEpisodes(filterSearch);
+});
+
 // Function to create cards
 function createElement(tag, className) {
   const element = document.createElement(tag);
@@ -1801,13 +1831,6 @@ function createEpisodeCard(episode) {
 }
 
 function makePageForEpisodes(episodeList) {
-  const layoutSelector = document.querySelector(".layout");
-
-  const test = episodeList.forEach((episode) => {
-    console.log(episode.name);
-  });
-
-  // Creates a card for each episode
   episodeList.forEach((episode) => {
     const filmCard = createEpisodeCard(episode);
     layoutSelector.appendChild(filmCard);
@@ -1827,9 +1850,6 @@ function setup() {
 window.onload = setup;
 
 //search filed part
-// const searchFiled = document.querySelector("#episodeSearch");
-// document.body.append(searchFiled);
-// searchFiled.addEventListener("input", filterAllEposides);
 
 // let getSearchInputValue = searchFiled.value;
 // function filterAllEposides() {
@@ -1837,12 +1857,3 @@ window.onload = setup;
 //     .then((response) => response.json())
 //     .then((data) => getAllEpisodes(data));
 // }
-const inputFi = createElement("input", "input-filed");
-inputFi.type = "search";
-inputFi.placeholder = "Episodes search";
-
-const selectElement = createElement("select", "episodeSelect");
-selectElement.name = "episodeSelect";
-
-document.body.appendChild(inputFi);
-document.body.appendChild(selectElement);

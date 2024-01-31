@@ -3,20 +3,7 @@
 //const searchField = document.getElementById("episodeSearch");
 const episodeSelector = document.querySelector("#episodeSearch");
 const layoutSelector = document.querySelector(".layout");
-//let getSearchInputValue = searchField.value;
-//document.body.appendChild(searchField);
-
-// Search filter for TV Show Library
-
-// Steps:
-// Create a search field (input type text)
-// Create an event listener (function) to work with the search field
-
-// Function steps:
-// Console.log the search field value to ensure that the search bar is logging my input
-// Filter the array of objects (allEpisodes) so that I can see the episodes that are related to my search
-// Clear the current cards
-// Call the filtered cards to create a new layout depending upon the current search
+const episodeSelect = document.querySelector("#episodeSelect");
 
 function getAllEpisodes() {
   return [
@@ -1774,18 +1761,58 @@ function getAllEpisodes() {
   ];
 }
 
+let getEpi = getAllEpisodes();
+
+function getEpiName(getEpi) {
+  for (let i = 0; i < getEpi.length; i++) {
+    let option = document.createElement("option");
+    option.text = `Seasont${getEpi[i].season} Episode${getEpi[i].number} : ${getEpi[i].name}`;
+    episodeSelect.appendChild(option);
+  }
+}
+getEpiName(getEpi);
+
+function selectEpisodes(episodeSelect) {
+  const episodes = getAllEpisodes();
+  episodeSelect.innerHTML = "";
+
+  const defaultOption = document.createElement("option");
+  defaultOption.textContent = "Please select...";
+  episodeSelect.appendChild(defaultOption);
+
+  episodes.forEach((episode) => {
+    const optionElement = document.createElement("option");
+    optionElement.textContent = episode.name;
+    episodeSelect.appendChild(optionElement);
+  });
+
+  episodeSelect.addEventListener("change", (event) => {
+    const selectedEpisodeName = event.target.value;
+
+    if (selectedEpisodeName === "Please select...") {
+      clearRender();
+      const allEpisodes = getAllEpisodes();
+      makePageForEpisodes(allEpisodes);
+    } else {
+      const filteredEpisodes = episodes.filter(
+        (episode) => episode.name === selectedEpisodeName
+      );
+      clearRender();
+      makePageForEpisodes(filteredEpisodes);
+    }
+  });
+}
+
 episodeSelector.addEventListener("input", function () {
   const searchTerm = episodeSelector.value.toLowerCase();
   const filterSearch = getAllEpisodes().filter((episode) =>
     episode.name.toLowerCase().includes(searchTerm)
   );
-  console.log(filterSearch);
-  layoutSelector.innerHTML = "";
 
+  layoutSelector.innerHTML = "";
   makePageForEpisodes(filterSearch);
 });
 
-// Function to create cards
 function createElement(tag, className) {
   const element = document.createElement(tag);
   if (className) {
@@ -1845,15 +1872,11 @@ function makePageForEpisodes(episodeList) {
 function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
+  selectEpisodes(episodeSelect);
   return allEpisodes;
 }
+
+function clearRender() {
+  layoutSelector.innerHTML = "";
+}
 window.onload = setup;
-
-//search filed part
-
-// let getSearchInputValue = searchFiled.value;
-// function filterAllEposides() {
-//   fetch("JS3-Module-Project-Marchus/episodes.js")
-//     .then((response) => response.json())
-//     .then((data) => getAllEpisodes(data));
-// }

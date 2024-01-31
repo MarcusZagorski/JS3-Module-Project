@@ -25,7 +25,18 @@ body {
   font-family: var(--font);
   color: var(--font-color);
 }
-
+.input-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  position: absolute;
+  padding-left: 7rem;
+  padding-top: 3rem;
+}
+#episodeSearch {
+  padding: 0.4rem;
+  border: none;
+}
 .layout {
   display: grid;
   grid-template-columns: var(--cards-layout);

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,12 +8,13 @@
   </head>
 
   <body>
-    <div id="root"></div>
+    <label class="search__layout" for="series__dropdown">
+      <select name="filter_results" id="series__dropdown"></select>
+      <select name="filter_results" id="filter__dropdown"></select>
+      <input type="text" id="search__field" name="filter_results" placeholder="Search for episode...">
+    </label>
 
-    <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-    <script src="episodes.js"></script>
-
-    <!-- Loads YOUR javascript code -->
+    <div id="root" class="layout"></div>
     <script src="script.js"></script>
   </body>
-</html>
+

@@ -248,6 +248,7 @@ async function searchFilterEpisodes() {
     searchShowsDropDown();
     clearCards();
     makePageForShows(showsFilter);
+    showDropDown.value = "default";
   } else {
     displayingFilterResults.textContent = "";
     searchShowsDropDown();
@@ -268,6 +269,8 @@ async function makePageForShows(episodeList) {
     layoutSelector.appendChild(filmCard);
 
     filmCard.addEventListener("click", async function () {
+      searchField.value = "";
+      console.log("click");
       displayingFilterResults.textContent = "";
       currentState.showsID = episode.id;
       currentState.showSelected = episode;

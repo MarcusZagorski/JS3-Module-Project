@@ -9,12 +9,12 @@
   </head>
 
   <body>
-    <div id="root"></div>
-
-    <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-    <script src="episodes.js"></script>
-
-    <!-- Loads YOUR javascript code -->
+    <label class="search__layout" for="series__dropdown">
+      <p>Filtering for</p>
+      <input type="text" id="search__field" name="filter_results" placeholder="Search for episode...">
+      <select name="filter_results" id="series__dropdown"></select>
+    </label>
+    <div id="root" class="layout"></div>
     <script src="script.js"></script>
   </body>
 </html>

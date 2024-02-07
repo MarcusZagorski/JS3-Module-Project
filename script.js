@@ -232,9 +232,15 @@ function dropDownAfterSearch(currentShows) {
 }
 
 const searchField = document.querySelector("#search__field");
-searchField.addEventListener("input", searchFilterEpisodes);
+if (searchFilterShows) {
+  searchField.addEventListener("input", searchFilterShows);
+}
 
-async function searchFilterEpisodes() {
+if (searchFilterEpisodes) {
+  searchField.addEventListener("input", searchFilterEpisodes);
+}
+
+async function searchFilterShows() {
   const showsData = await getAllShows();
   const showsFilter = showsData.filter(
     (show) =>
@@ -248,12 +254,36 @@ async function searchFilterEpisodes() {
     searchShowsDropDown();
     clearCards();
     makePageForShows(showsFilter);
+  } else {
+    displayingFilterResults.textContent = "";
+    removeCardLayout();
+    searchShowsDropDown();
+    render();
     showDropDown.value = "default";
+  }
+
+  const searchLayout = document.querySelector(".search__layout");
+  searchLayout.appendChild(displayingFilterResults);
+}
+
+async function searchFilterEpisodes() {
+  const episodeData = await getAllEpisodes();
+  const episodeFilter = episodeData.filter(
+    (episode) =>
+      episode.name.toLowerCase().includes(searchField.value.toLowerCase()) ||
+      episode.summary.toLowerCase().includes(searchField.value.toLowerCase())
+  );
+
+  if (searchField.value.length > 0) {
+    displayingFilterResults.textContent = `Found ${episodeFilter.length} episodes`;
+    removeCardLayout();
+    searchShowsDropDown();
+    clearCards();
+    makePageForEpisodes(episodeFilter);
   } else {
     displayingFilterResults.textContent = "";
     searchShowsDropDown();
     render();
-    showDropDown.value = "default";
   }
 
   const searchLayout = document.querySelector(".search__layout");
@@ -282,12 +312,14 @@ async function makePageForShows(episodeList) {
       addCardLayout();
       clearCards();
       makePageForEpisodes(episodeData);
+      searchField.addEventListener("input", searchFilterEpisodes);
     });
   });
 }
 
 async function makePageForEpisodes(episodeCard) {
-  const layoutSelector = document.querySelector(".layout__for__cards");
+  const layoutSelector = document.querySelector(".layout");
+  addCardLayout();
   layoutSelector.innerHTML = "";
   episodeCard.forEach((episode) => {
     const filmCard = createEpisodeCard(episode);

@@ -1,3 +1,229 @@
-#root {
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100;200;300;400;500&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --background-color: #264653;
+  --layout-padding: 3rem;
+  --font-color: #d4ebe9;
+  --cards-layout: repeat(auto-fill, minmax(28rem, auto));
+  --layout-for-card: 2rem 18rem auto;
+  --font: "Fira Sans", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: var(--font-color);
+}
+
+@keyframes pageLoad {
+  from {
+    width: 40%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.no_img_available {
+  height: -webkit-fill-available;
+}
+
+body {
+  background: var(--background-color);
+  font-family: var(--font);
+  color: var(--font-color);
+  animation-name: pageLoad;
+  animation-duration: 1s;
+  animation-timing-function: cubic-bezier(0.39, 0.58, 0.57, 1);
+}
+
+.search__layout {
+  padding: 0 var(--layout-padding);
+  margin-top: 7rem;
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+#series__dropdown {
+  width: 18rem;
+  height: 2.6rem;
+  padding-left: 0.4rem;
+  font-size: 1.2rem;
+}
+
+#filter__dropdown {
+  width: 18rem;
+  height: 2.6rem;
+  padding-left: 0.4rem;
+  font-size: 1.2rem;
+}
+
+#search__field {
+  width: 18rem;
+  height: 2.6rem;
+  padding-left: 0.4rem;
+  font-size: 1.2rem;
+}
+
+.display__episodes {
   color: red;
+}
+
+.layout {
+  display: grid;
+  gap: 2rem;
+  padding: 6rem var(--layout-padding);
+}
+
+.layout__for__cards {
+  display: grid;
+  grid-template-columns: var(--cards-layout);
+  gap: 2rem;
+  padding: 6rem var(--layout-padding);
+}
+
+.cards__for__episodes {
+  display: grid;
+  grid-template-rows: var(--layout-for-card);
+  justify-content: center;
+  border: 1px solid #d4ebe938;
+  border-radius: 1.4rem;
+  padding: 0.4rem;
+  box-shadow: 0px 8px 20px -7.8px #00000047;
+  opacity: 0.6;
+  transition: all ease-in-out 0.4s;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.card {
+  display: grid;
+  grid-template-rows: 6rem auto;
+  grid-template-columns: 70% 30%;
+  row-gap: 3.2rem;
+  justify-content: center;
+  border: 1px solid #d4ebe938;
+  border-radius: 1.4rem;
+  padding: 2rem;
+  box-shadow: 0px 8px 20px -7.8px #00000047;
+  opacity: 0.6;
+  transition: all ease-in-out 0.4s;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.card:hover,
+.card:active {
+  opacity: 1;
+  box-shadow: 0px 8px 20px -2px #00000047;
+}
+
+.card__title {
+  font-size: 3.2rem;
+  letter-spacing: 0.1rem;
+  font-weight: 300;
+  align-self: center;
+}
+
+.img__summary {
+  display: flex;
+  align-items: center;
+  grid-row: 2;
+}
+
+.card__img {
+  height: 22rem;
+  margin: 0.6rem;
+  border-radius: 16px;
+  box-shadow: 2px 5px 10px 0px #00000026;
+}
+
+.card__summary,
+.additionaldetails {
+  padding: 2rem;
+  font-weight: 300;
+  line-height: 1.8rem;
+  letter-spacing: 0.1rem;
+}
+
+.additionaldetails {
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  align-items: center;
+  grid-row: 2;
+}
+
+.additionaldetails__text {
+  font-style: italic;
+  letter-spacing: 0;
+}
+
+.star__rating {
+  width: 1rem;
+  stroke: yellow;
+  fill: yellow;
+}
+
+/* ------ EPISODE CARDS STYLING */
+
+.episode__card {
+  display: grid;
+  grid-template-rows: var(--layout-for-card);
+  height: 100%;
+  row-gap: 1.4rem;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #d4ebe938;
+  border-radius: 1.4rem;
+  padding: 2rem;
+  box-shadow: 0px 8px 20px -7.8px #00000047;
+  opacity: 0.6;
+  transition: all ease-in-out 0.4s;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.episode__card__title {
+  font-size: 2rem;
+  font-weight: 300;
+  text-align: center;
+}
+
+.episode__card__img {
+  width: 27rem;
+  padding: 0.6rem;
+  margin: 0.6rem;
+  border-radius: 1rem;
+}
+
+.episode__card__imgg {
+  width: 2rem;
+}
+
+/* ---------------------------- */
+
+.footer {
+  padding: 2.6rem 0.6rem;
+  letter-spacing: 0.1rem;
+  font-weight: 100;
+  margin: 0 var(--layout-padding);
+  border-top: 2px solid #67bd76;
+}
+
+#tv-maze-link {
+  color: #67bd76;
+  border-bottom: 2px solid #67bd75;
+  padding-bottom: 0.2rem;
+}
+
+#tv-maze-link:hover,
+#tv-maze-link:active {
+  font-weight: 500;
 }

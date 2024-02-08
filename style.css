@@ -29,6 +29,10 @@ a {
   }
 }
 
+.no_img_available {
+  height: -webkit-fill-available;
+}
+
 body {
   background: var(--background-color);
   font-family: var(--font);
@@ -172,6 +176,7 @@ body {
 .episode__card {
   display: grid;
   grid-template-rows: var(--layout-for-card);
+  height: 100%;
   row-gap: 1.4rem;
   justify-content: center;
   align-items: center;

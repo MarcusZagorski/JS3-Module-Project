@@ -22,6 +22,7 @@ async function fetchAPI(url) {
 
 function addCardLayout() {
   layoutSelector.classList.add("layout__for__cards");
+  searchField.classList.add("test");
 }
 
 function removeCardLayout() {
@@ -96,14 +97,7 @@ function createShowCard(show) {
   const wrapImageAndSummary = createElement("div", "img__summary");
 
   const filmImgElement = createElement("img", "card__img");
-  if (show.image && show.image.original) {
-    filmImgElement.setAttribute("src", show.image.original);
-  } else {
-    filmImgElement.setAttribute(
-      "src",
-      "https://t3.ftcdn.net/jpg/04/34/72/82/360_F_434728286_OWQQvAFoXZLdGHlObozsolNeuSxhpr84.jpg"
-    );
-  }
+  filmImgElement.setAttribute("src", show.image.original);
   wrapImageAndSummary.appendChild(filmImgElement);
 
   const filmSummaryElement = createElement("p", "card__summary");
@@ -165,10 +159,8 @@ function createEpisodeCard(episode) {
   if (episode.image && episode.image.original) {
     filmImgElement.setAttribute("src", episode.image.original);
   } else {
-    filmImgElement.setAttribute(
-      "src",
-      "https://t3.ftcdn.net/jpg/04/34/72/82/360_F_434728286_OWQQvAFoXZLdGHlObozsolNeuSxhpr84.jpg"
-    );
+    filmImgElement.setAttribute("src", "images/no-img-available.jpeg");
+    filmImgElement.classList.add("no_img_available");
   }
 
   const filmSummaryElement = createElement("p", "card__summary");
@@ -199,6 +191,9 @@ async function searchShowsDropDown() {
 
     showDropDown.addEventListener("change", async function (event) {
       if (event.target.value === "default") {
+        searchField.setAttribute("placeholder", "Search for show/s...");
+        searchField.removeEventListener("input", searchFilterEpisodes);
+        searchField.addEventListener("input", searchFilterShows);
         searchField.value = "";
         displayingFilterResults.textContent = "";
         removeCardLayout();
@@ -206,6 +201,7 @@ async function searchShowsDropDown() {
         render();
         return;
       } else {
+        searchField.setAttribute("placeholder", "Search for episode/s...");
         const findID = showsData.find(
           (show) => show.name === event.target.value
         );
@@ -232,11 +228,12 @@ function dropDownAfterSearch(currentShows) {
 }
 
 const searchField = document.querySelector("#search__field");
-if (searchFilterShows) {
-  searchField.addEventListener("input", searchFilterShows);
-}
 
-if (searchFilterEpisodes) {
+if (searchField.getAttribute("placeholder") === "Search for show/s...") {
+  searchField.addEventListener("input", searchFilterShows);
+} else if (
+  searchField.getAttribute("placeholder") === "Search for episode/s..."
+) {
   searchField.addEventListener("input", searchFilterEpisodes);
 }
 
@@ -249,24 +246,27 @@ async function searchFilterShows() {
   );
 
   if (searchField.value.length > 0) {
+    console.log("filtering shows");
     displayingFilterResults.textContent = `Found ${showsFilter.length} shows`;
     removeCardLayout();
-    searchShowsDropDown();
     clearCards();
     makePageForShows(showsFilter);
   } else {
     displayingFilterResults.textContent = "";
     removeCardLayout();
-    searchShowsDropDown();
+    clearCards();
     render();
     showDropDown.value = "default";
   }
 
+  searchField.removeEventListener("input", searchFilterEpisodes);
+  searchField.addEventListener("input", searchFilterShows);
   const searchLayout = document.querySelector(".search__layout");
   searchLayout.appendChild(displayingFilterResults);
 }
 
 async function searchFilterEpisodes() {
+  searchField.innerHTML = "";
   const episodeData = await getAllEpisodes();
   const episodeFilter = episodeData.filter(
     (episode) =>
@@ -277,12 +277,15 @@ async function searchFilterEpisodes() {
   if (searchField.value.length > 0) {
     displayingFilterResults.textContent = `Found ${episodeFilter.length} episodes`;
     removeCardLayout();
-    searchShowsDropDown();
     clearCards();
     makePageForEpisodes(episodeFilter);
   } else {
+    searchField.removeEventListener("input", searchFilterEpisodes);
+    searchField.addEventListener("input", searchFilterShows);
+    showDropDown.value = "default";
+    removeCardLayout();
     displayingFilterResults.textContent = "";
-    searchShowsDropDown();
+    clearCards();
     render();
   }
 
@@ -300,18 +303,21 @@ async function makePageForShows(episodeList) {
 
     filmCard.addEventListener("click", async function () {
       searchField.value = "";
-      console.log("click");
+      searchField.setAttribute("placeholder", "Search for episode/s...");
       displayingFilterResults.textContent = "";
       currentState.showsID = episode.id;
       currentState.showSelected = episode;
       const episodeData = await getAllEpisodes();
       const selectedShow = [...showDropDown].find(
-        (show) => show.textContent === currentState.showSelected.name
+        (show) => show.value === episode.name
       );
       selectedShow.selected = true;
+      currentState.episodesFetched = false;
+      scrollTo(top);
       addCardLayout();
       clearCards();
       makePageForEpisodes(episodeData);
+      searchField.removeEventListener("input", searchFilterShows);
       searchField.addEventListener("input", searchFilterEpisodes);
     });
   });
